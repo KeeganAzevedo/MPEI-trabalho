@@ -62,7 +62,7 @@ function dados = lerArquivoJSON(nomeArquivo)
 end
 
 % Gerenciar livros e usuários com arquivo JSON
-function gerenciarSistemaComArquivo()
+function gerenciarSistema()
     % Inicialização dos filtros
     tamanhoBloom = 1000; % Tamanho do Bloom Filter
     numHashes = 3; % Número de funções hash
@@ -113,4 +113,4 @@ function gerenciarSistemaComArquivo()
 end
 
 % Executar o gerenciador do sistema
-gerenciarSistemaComArquivo();
+gerenciarSistema();
