@@ -1,8 +1,8 @@
-function generoPredito = classificarLivrosNaiveBayes(titulos, resumos, generosTreino, titulosTest, resumosTest)
+function generoPredito = classificarLivrosNaiveBayes(titulos, resumos, Generos, titulosTest, resumosTest)
     textosTreino = strcat(titulos, " ", resumos);
     textosTest = strcat(titulosTest, " ", resumosTest);
 
-    generosUnicos = unique(generosTreino);
+    generosUnicos = unique(Generos);
     numGeneros = length(generosUnicos);
 
     vocabulario = unique(strsplit(lower(join(textosTreino)))); % Normaliza para minúsculas
@@ -13,7 +13,7 @@ function generoPredito = classificarLivrosNaiveBayes(titulos, resumos, generosTr
 
     for g = 1:numGeneros
         genero = generosUnicos{g};
-        indicesGenero = strcmp(generosTreino, genero); % Filtrar livros do gênero atual
+        indicesGenero = strcmp(Generos, genero); % Filtrar livros do gênero atual
         textosGenero = join(textosTreino(indicesGenero)); % Combina todos os textos desse gênero
         palavrasGenero = strsplit(lower(textosGenero)); % Divide o texto em palavras
 
@@ -27,7 +27,7 @@ function generoPredito = classificarLivrosNaiveBayes(titulos, resumos, generosTr
     %func prob
     function prob = calcularProbabilidade(texto, generoIdx)
         palavrasTexto = strsplit(lower(texto));
-        prob = log(sum(strcmp(generosTreino, generosUnicos{generoIdx})) / length(generosTreino)); % P(Gênero)
+        prob = log(sum(strcmp(Generos, generosUnicos{generoIdx})) / length(Generos)); % P(Gênero)
 
         for p = 1:length(palavrasTexto)
             palavraIdx = find(strcmp(vocabulario, palavrasTexto{p}));
