@@ -112,5 +112,5 @@ function gerenciarSistema()
     end
 end
 
-% Executar o gerenciador do sistemaa
+% Executar o gerenciador do sistema
 gerenciarSistema();
