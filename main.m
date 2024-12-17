@@ -87,4 +87,3 @@ while opcao ~= 4
             fprintf('Opção inválida. Tente novamente.\n');
     end
 end
-
