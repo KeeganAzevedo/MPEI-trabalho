@@ -1,5 +1,6 @@
-jsonData = jsondecode(fileread('livros_dados.json'));
-
+% Carregar os dados JSON
+nomeArquivo = 'livros_dados.json';
+jsonData = jsondecode(fileread(nomeArquivo));
 numLivros = length(jsonData);
 
 % Inicializar vetores para os dados principais
@@ -12,6 +13,7 @@ Editoras = strings(numLivros, 1);
 Resumos = strings(numLivros, 1);
 Historicos = strings(numLivros, 1);
 
+% Processamento dos dados JSON
 for i = 1:numLivros
     ID(i) = jsonData(i).id;
     Titulos(i) = jsonData(i).titulo;
@@ -31,27 +33,58 @@ for i = 1:numLivros
     Historicos(i) = historico;
 end
 
-% Criar uma tabela com os dados
+% Criar tabela com os dados
 livros = table(ID, Titulos, Autores, Generos, AnoPublicacao, Editoras, Resumos, Historicos);
-disp(livros);
 
+% Exibir uma mensagem inicial
+fprintf('Bem-vindo ao Sistema de Gestão de Livros!\n');
 
-%%
-%Classificador Bayes
-% exemplo de dois Livros para procurar Genero
-TitulosTest = ["A Brief History of Time", "Advanced Machine Learning"];
-ResumosTest = ["A book about the history of cosmology and black holes.", ...
-               "An in-depth study on algorithms and data structures for AI."];
-% Utiliza as variaveis de treino obtidas anteriormente para definir o
-% genero de uma nova variavel de teste e retorna o genero previsto
-generosPrevistos = classificarLivrosNaiveBayes(Titulos, Resumos, Generos, TitulosTest, ResumosTest);
-disp(generosPrevistos);
-
-
-%%
-%BF
-
-
-%%
-%MINHASH
+% Loop do Menu
+opcao = 0;
+while opcao ~= 4
+    fprintf('\nEscolha uma opção:\n');
+    fprintf('1. Classificar Gênero de Livros (Naive Bayes)\n');
+    fprintf('2. Buscar Livro (ID e Título - Bloom Filter)\n');
+    fprintf('3. Recomendar Livros (MinHash)\n');
+    fprintf('4. Sair\n');
+    
+    opcao = input('Digite o número da opção desejada: ');
+    
+    switch opcao
+        case 1
+            % Classificador Bayes
+            fprintf('\n--- Classificação de Livros ---\n');
+            TitulosTest = input('Digite os títulos dos livros (como array ["titulo1", "titulo2"]): ');
+            ResumosTest = input('Digite os resumos dos livros (como array ["resumo1", "resumo2"]): ');
+            fprintf('\n-----------------------\n')
+            
+            generosPrevistos = classificarLivrosNaiveBayes(Titulos, Resumos, Generos, TitulosTest, ResumosTest);
+            fprintf('Gêneros previstos para os livros testados:\n');
+            disp(generosPrevistos);
+            
+        case 2
+            % Busca usando Bloom Filter
+            fprintf('\n--- Busca de Livro ---\n');
+            livroBuscaID = input('Digite o ID do livro: ', 's');
+            livroBuscaTitulo = input('Digite o título do livro: ', 's');
+            usuarioBusca = input('Digite o ID do usuário: ', 's');
+            fprintf('\n-----------------------\n')
+            
+            Bloomfilter(livroBuscaID, livroBuscaTitulo, usuarioBusca,nomeArquivo);
+            
+        case 3
+            % Recomendações com MinHash
+            fprintf('\n--- Recomendações de Livros ---\n');
+            idUsuario = input('Digite o ID do usuário: ', 's');
+            nTop = input('Digite o número de recomendações desejadas: ');
+            fprintf('\n-----------------------\n')
+            
+            minash_usuario(idUsuario, nTop, nomeArquivo);
+            
+        case 4
+            fprintf('Saindo do sistema. Até mais!\n');
+        otherwise
+            fprintf('Opção inválida. Tente novamente.\n');
+    end
+end
 
